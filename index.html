@@ -7,13 +7,21 @@
     <script src="app.js"></script>
   </head>
   <body ng-app="myApp">
-    <div ng-controller="AddingListController as addList">
-      <input type="text" ng-model="addList.name" >
-      <input type="text" ng-model="addList.quant" >
-      <button type="button" ng-click="addList.addItemToList()">click!</button>
+    <div ng-controller="shoppingListController1 as shop1">
+      <input type="text" ng-model="shop1.name" >
+      <input type="text" ng-model="shop1.quant" >
+      <button type="button" ng-click="shop1.addItemToList()">click!</button>
+      <ol>
+        <li ng-repeat="item in shop1.items">{{item.name}} . {{item.quant}}</li>
+      </ol>
     </div>
-    <ol ng-controller="ShowingListController as showList">
-      <li ng-repeat="item in showList.items">{{item.name}} . {{item.quant}}</li>
-    </ol>
+    <div ng-controller="shoppingListController2 as shop2">
+      <input type="text" ng-model="shop2.name" >
+      <input type="text" ng-model="shop2.quant" >
+      <button type="button" ng-click="shop2.addItemToList()">click!</button>
+      <ol>
+        <li ng-repeat="item in shop2.items">{{item.name}} . {{item.quant}}</li>
+      </ol>
+    </div>
   </body>
 </html>

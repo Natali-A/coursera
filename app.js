@@ -2,27 +2,35 @@
   'use strict';
 
   angular.module("myApp", [])
-  .controller("AddingListController", AddingListController)
-  .controller("ShowingListController", ShowingListController)
-  .service("ShoppingListService", ShoppingListService)
-  .filter('loves', lovesFilterFactory);
+  .controller("shoppingListController1", shoppingListController1)
+  .controller("shoppingListController2", shoppingListConroller2)
+  .factory("ShoppingListFactory", ShoppingListServiceFactory);
 
-AddingListController.$inject = ['ShoppingListService'];
-function AddingListController(ShoppingListService) {
-  var addList = this;
-  addList.name = "";
-  addList.quant = "";
+shoppingListController1.$inject = ['ShoppingListFactory'];
+function shoppingListController1(ShoppingListFactory) {
+  var shop1 = this;
+  shop1.name = "";
+  shop1.quant = "";
+  var service = ShoppingListFactory();
 
-  addList.addItemToList = function() {
-    ShoppingListService.addItem(addList.name, addList.quant);
+  shop1.items = service.getItems();
+  shop1.addItemToList = function() {
+    service.addItem(shop1.name, shop1.quant);
   }
 }
 
-ShowingListController.$inject = ['ShoppingListService'];
-function ShowingListController(ShoppingListService) {
-  var showList = this;
+shoppingListConroller2.$inject = ['ShoppingListFactory'];
+function shoppingListConroller2(ShoppingListFactory) {
+  var shop2 = this;
 
-  showList.items = ShoppingListService.getItems();
+  shop2.name = "";
+  shop2.quant = "";
+  var service = ShoppingListFactory();
+
+  shop2.items = service.getItems();
+  shop2.addItemToList = function() {
+    service.addItem(shop2.name, shop2.quant);
+  }
 }
 
 function ShoppingListService () {
@@ -36,35 +44,11 @@ function ShoppingListService () {
   service.getItems = function() {
     return items;
   }
-
 }
 
-
-
-myController.$inject = ['$scope', '$filter', 'lovesFilter'];
-  function myController($scope, $filter, lovesFilter) {
-    $scope.name = "natali";
-
-    $scope.upper = function(){
-      var upperFilter = $filter('uppercase');
-      $scope.name = upperFilter($scope.name);
-    };
-
-    $scope.sayMessage = function(){
-      var msg = "natali likes food";
-      return msg;
-    };
-
-    $scope.sayLoveMessage = function() {
-      var msg= "natali likes food";
-      return lovesFilter(msg);
-    };
-
-  }
-
-  function lovesFilterFactory(){
-    return function(input) {
-      return input.replace("likes", "loves");
-    }
-  }
+function ShoppingListServiceFactory() {
+  return function () {
+    return new ShoppingListService();
+  };
+}
 })();
